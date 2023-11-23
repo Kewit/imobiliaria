@@ -1,6 +1,6 @@
 package com.example.demo.model;
 
-import java.util.List;
+import java.util.Set;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -38,7 +38,7 @@ public class Imovel {
     }, inverseJoinColumns = {
             @JoinColumn(name = "imagem_id")
     })
-	private List<Imagens> imagens;
+	private Set<Imagens> imagens;
 	private String condominio;
 	private String localizacao;
 	private String mobiliado;

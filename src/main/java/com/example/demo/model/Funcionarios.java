@@ -26,4 +26,5 @@ public class Funcionarios{
 	@ManyToOne
 	@JoinColumn(name="cnpj")
 	private Empresa empresa;
+	private String atividade;
 }

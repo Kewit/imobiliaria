@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +32,6 @@ public class ImovelService {
     private ImovelRepository imovelRepository;
     @Autowired
     private ProprietarioRepository proprietarioRepository;
-
-
-
 
     public List<ImovelDTO> listarTodosImoveis(){
         List<Imovel> listaDeImoveis = imovelRepository.findAll();
@@ -245,22 +244,26 @@ public class ImovelService {
         return imovelDTO;
 	}
 
-    public ImovelDTO criarImovel(ImovelDTO imovelDTO, MultipartFile[] files, long id){
-		try {
+    public ImovelDTO criarImovel(ImovelDTO imovelDTO, MultipartFile[] files, long id) {
+        try {
             Proprietario proprietario = proprietarioRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Usuario não encontrado!"));
+            Set<Imagens> imagens = uploadImage(files);
+    
+            List<ImagensDTO> imagensDTOs = new ArrayList<>();
+            for (Imagens i : imagens) {
+                ImagensDTO imagensDTO = new ImagensDTO(i.getName(), i.getType(), Base64.getEncoder().encodeToString(i.getPicByte()));
+                imagensDTOs.add(imagensDTO);
+            }
+            imovelDTO.setImagens(imagensDTOs);
             Imovel imovel = new ModelMapper().map(imovelDTO, Imovel.class);
-            imovel.setProprietario(proprietario);
-            proprietario.getImoveis().add(imovel);
-            List<Imagens> imagens = uploadImage(files);
             imovel.setImagens(imagens);
+            imovel.setProprietario(proprietario);
             imovel = imovelRepository.save(imovel);
-            proprietarioRepository.save(proprietario);
-            imovelDTO.setImovelId(imovel.getImovelId());
             return imovelDTO;
         } catch (Exception e) {
             throw new ResourceInternalServerException("Ocorreu um erro no servidor!");
         }
-	}
+    }
 
    
 	public ImovelDTO alterarImovel(ImovelDTO imovelDTO, long id){
@@ -284,8 +287,8 @@ public class ImovelService {
     public ImovelDTO adicionarImagens(Long imovelId, MultipartFile[] files){
         Imovel imovel = imovelRepository.findById(imovelId).orElseThrow(() -> new ResourceNotFoundException("Imovel não encontrado!"));
         try {
-            List<Imagens> imagens = uploadImage(files);
-            List<Imagens> imagensJaExistentes = imovel.getImagens();
+            Set<Imagens> imagens = uploadImage(files);
+            Set<Imagens> imagensJaExistentes = imovel.getImagens();
             imagens.addAll(imagensJaExistentes);
             imovel.setImagens(imagens);
             imovelRepository.save(imovel);
@@ -296,8 +299,8 @@ public class ImovelService {
         }
     }
 
-     public List<Imagens> uploadImage(MultipartFile[] multipartFiles) throws IOException {
-        List<Imagens> imagens = new ArrayList<>();
+     public Set<Imagens> uploadImage(MultipartFile[] multipartFiles) throws IOException {
+        Set<Imagens> imagens = new HashSet<>();
 
         for (MultipartFile file : multipartFiles) {
             Imagens imagem = new Imagens(

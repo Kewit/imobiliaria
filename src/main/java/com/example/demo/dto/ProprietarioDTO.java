@@ -23,4 +23,6 @@ public class ProprietarioDTO {
 	private int credibilidade;
 	private List<Imovel> imoveis;
 	private List<Avaliacao> avaliacoes;
+	private String user;
+	private String atividade;
 }

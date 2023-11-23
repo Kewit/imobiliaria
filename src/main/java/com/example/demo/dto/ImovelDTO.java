@@ -21,7 +21,7 @@ public class ImovelDTO {
 	private Double preco;
 	private String iptu;
 	private List<ImagensDTO> imagens;
-	private String vondominio;
+	private String condominio;
 	private String localizacao;
 	private String mobiliado;
 	private String descricao;

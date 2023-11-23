@@ -17,4 +17,5 @@ public class FuncionariosDTO {
 	private String email;
 	private String telefone;
 	private Empresa empresa;
+	private String atividade;
 }

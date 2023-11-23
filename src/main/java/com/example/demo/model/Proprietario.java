@@ -37,21 +37,9 @@ public class Proprietario{
 	@OneToMany(mappedBy = "proprietario")
 	@JsonIgnore
 	private List<Avaliacao> avaliacoes;
+	private String atividade;
 }
 
 
 
 
-//- Proprietario:
-//	  - Id*
-//	  - Nome
-//	  - cpf
-//	  - Endereço
-//	  - telefone
-//	  - email
-//	  - foto
-//	  - Quantidade de imoveis disponiveis
-//	  - imovel   Imovel
-//	  - credibilidade
-//	  - mensagem   Msg
-//	  - data de cadastro  

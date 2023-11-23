@@ -20,4 +20,5 @@ public class EmpresaDTO {
 	private String telefone;
 	private String email;
 	private List<Funcionarios> funcionarios;
+	private String atividade;
 }

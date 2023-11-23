@@ -28,4 +28,5 @@ public class Empresa{
 	@OneToMany(mappedBy = "empresa", cascade = CascadeType.ALL)
 	@JsonIgnore
 	private List<Funcionarios> funcionarios;
+	private String atividade;
 }

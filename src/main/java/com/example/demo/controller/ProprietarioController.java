@@ -29,7 +29,6 @@ public class ProprietarioController {
 		return new ResponseEntity<>(proprietario, HttpStatus.OK);
 	}
 
-	
 
 	@PutMapping("/alterarProprietario/{id}")
 	public ResponseEntity<ProprietarioDTO> AlterarProprietario(@RequestBody ProprietarioDTO proprietario, @PathVariable long id){

@@ -88,7 +88,7 @@ public class ImovelController {
 	}
 
     @PostMapping(value= {"/criarImovel/{id}"}, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-	public ResponseEntity<ImovelDTO> criarImovel(@ModelAttribute ImovelDTO imovel, @RequestParam(value="imagens") MultipartFile[] files, @PathVariable long id){
+	public ResponseEntity<ImovelDTO> criarImovel(@ModelAttribute ImovelDTO imovel, @RequestParam(value="image") MultipartFile[] files, @PathVariable long id){
 		imovel = imovelService.criarImovel(imovel, files, id);
 		return new ResponseEntity<>(imovel, HttpStatus.OK);
 	}
