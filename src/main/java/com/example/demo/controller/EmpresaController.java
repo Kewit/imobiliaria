@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.dto.EmpresaDTO;
 import com.example.demo.dto.FuncionariosDTO;
 import com.example.demo.service.EmpresaService;
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/empresa")
 public class EmpresaController {
@@ -35,6 +37,15 @@ public class EmpresaController {
 		EmpresaDTO empresa = empresaService.detalharEmpresa(empresaId);
 		return new ResponseEntity<>(empresa, HttpStatus.OK);
 	}
+
+
+
+  @GetMapping("/listarFuncionariosEmpresa/{empresaId}")
+		public ResponseEntity<List<FuncionariosDTO>> listarFuncionariosEmpresa(@PathVariable String empresaId){
+		List<FuncionariosDTO> funcionarios = empresaService.listarFuncionariosEmpresa(empresaId);
+		return new ResponseEntity<>(funcionarios, HttpStatus.OK);
+	}
+
 
     @PostMapping("/criarEmpresa")
 	public ResponseEntity<EmpresaDTO> criarEmpresa(@RequestBody EmpresaDTO empresaDTO){
@@ -55,8 +66,8 @@ public class EmpresaController {
 	}
 
 	@DeleteMapping("/deletarEmpresa/{empresaId}")
-	public ResponseEntity<?> deletarEmpresa(@PathVariable String empresaId){
-		empresaService.deletarEmpresa(empresaId);
+	public ResponseEntity<?> deletarEmpresa(@PathVariable String cnpj){
+		empresaService.deletarEmpresa(cnpj);
 		return new ResponseEntity<>("Empresa deletada com sucesso!", HttpStatus.OK);
 	}
 	

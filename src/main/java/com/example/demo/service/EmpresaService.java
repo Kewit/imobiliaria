@@ -1,6 +1,7 @@
 
 package com.example.demo.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -86,5 +87,18 @@ public class EmpresaService {
         empresaRepository.delete(empresa);
     }
             
+    public List<FuncionariosDTO> listarFuncionariosEmpresa(String cnpj){
+        List<Funcionarios> funcionarios = funcionariosRepository.listarFuncionariosEmpresa(cnpj);
+        List<FuncionariosDTO> funcionariosDTO = new ArrayList<>();
+        for(Funcionarios i:funcionarios){
+            FuncionariosDTO funcionarioDTO = new ModelMapper().map(i, FuncionariosDTO.class);
+            
+             funcionariosDTO.add(funcionarioDTO);
+        }            
+        return funcionariosDTO;
+            }
+
+
+
     }
 
